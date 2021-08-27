@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        @font-face{
+            font-family: "SimpleCat";
+            src: url('Simplecat-d9xpV.otf') format("opentype");
+        }
+
+        *, *::before, *::after{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "SimpleCat";
+            letter-spacing: 0.2em;
+        }
+
+        .container{
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        img.main-img{
+            width: 540px;
+            height: 540px;
+            object-fit: cover;
+        }
+
+        img.kawaii{
+            position: absolute;
+            cursor: grab;
+        }
+
+        h1{
+            font-size: 3em;
+        }
+
+        button{
+            font-size: 1.4em;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Have a nice cat day!</h1>
+        <img src="" alt="" class='main-img'>
+        <button>Get new cat!</button>
+    </div>
+    
+    <script>
+        const apiKey = '63a22f7c-c850-4bc1-8932-f54a94b408e5'
+        const button = document.querySelector('button') 
+        const image = document.querySelector('img.main-img')
+        const catMeow = new Audio('cat_meow.wav')
+        let catObject = {};
+
+        async function getImage(){
+            let promise = await fetch('https://api.thecatapi.com/v1/images/search')
+            .then(response => response.json())
+            .then(data => {return {...data}[0]})
+            .then(cat => {image.src = cat.url})   
+
+            return promise
+        }
+
+        document.onload = getImage();
+        button.addEventListener('click', () => {
+            getImage()
+            catMeow.play();
+        });
+
+        // const kawaiiCat = document.createElement('img');
+        // kawaiiCat.src = "kawaii_cat.png"
+        // kawaiiCat.classList.add("kawaii")
+        // kawaiiCat.style.top = `${Math.abs(Math.random() * window.innerHeight - kawaiiCat.height)}px`;
+        // kawaiiCat.style.left = `${Math.abs(Math.random() * window.innerWidth - kawaiiCat.width)}px`;
+        // document.body.appendChild(kawaiiCat)
+
+    //     kawaiiCat.addEventListener('drag', e => {//console.log(`x: ${e.clientX}, y: ${e.clientY}`)
+    //     console.log(e.target)
+    //     kawaiiCat.style.left = `${e.screenX - kawaiiCat.width / 2}px`    
+    //     kawaiiCat.style.top = `${e.screenY - kawaiiCat.height / 2}px`    
+    // })
+
+        // kawaiiCat.addEventListener('dragleave', e => {
+        //     e.preventDefault();
+        //     console.log(e.screenX)
+        //     kawaiiCat.style.top = e.clientX
+        //     kawaiiCat.style.left = e.clientY
+        // })
+        
+
+
+        
+         
+
+    </script>
+</body>
+</html>
